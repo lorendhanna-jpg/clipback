@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ClipBack — your screen, on instant replay</title>
+<meta name="description" content="ClipBack quietly keeps the last 10 seconds of your phone screen ready at all times. One tap, and it's a video in your gallery. No internet permission — nothing ever leaves your phone.">
+<style>
+  :root{ --ink:#0b1020; --panel:#151b33; --line:#2a3155; --mist:#e9ebf8; --dim:#9aa3c4;
+         --violet:#6d5efc; --violet-soft:#8d81ff; --rec:#ff4d5a; }
+  *{box-sizing:border-box}
+  body{ margin:0; background:var(--ink); color:var(--mist);
+    font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; line-height:1.6; }
+  .wrap{ max-width:860px; margin:0 auto; padding:0 22px; }
+  header{ padding:80px 0 50px; text-align:center; }
+  .rec{ display:inline-flex; align-items:center; gap:8px; font-size:.75rem; letter-spacing:.15em;
+    color:var(--dim); text-transform:uppercase; font-family:Menlo,monospace; }
+  .rec .dot{ width:8px; height:8px; border-radius:50%; background:var(--rec);
+    animation:pulse 1.6s infinite; }
+  @keyframes pulse{ 0%,100%{opacity:1} 50%{opacity:.25} }
+  @media (prefers-reduced-motion: reduce){ .rec .dot{ animation:none } }
+  h1{ font-size:clamp(2.4rem,7vw,4rem); font-weight:800; letter-spacing:-.02em; line-height:1.05;
+    margin:.35em 0 .3em; }
+  h1 span{ color:var(--violet-soft); }
+  .lede{ color:var(--dim); font-size:1.15rem; max-width:34em; margin:0 auto; }
+  .lede b{ color:var(--mist); }
+  .cta{ display:inline-block; margin-top:30px; background:var(--violet); color:#fff;
+    font-weight:700; text-decoration:none; border-radius:14px; padding:14px 30px; }
+  .soon{ display:block; margin-top:12px; color:var(--dim); font-size:.85rem; }
+  section{ padding:40px 0; border-top:1px solid var(--line); }
+  h2{ font-size:1.4rem; font-weight:800; }
+  .cards{ display:flex; gap:16px; flex-wrap:wrap; }
+  .card{ flex:1 1 230px; background:var(--panel); border:1px solid var(--line);
+    border-radius:16px; padding:20px; }
+  .card b{ display:block; margin-bottom:6px; }
+  .card p{ margin:0; color:var(--dim); font-size:.92rem; }
+  footer{ padding:40px 0 70px; color:var(--dim); font-size:.85rem; text-align:center; }
+  a{ color:var(--violet-soft); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="rec"><span class="dot"></span> REC &#9656; 00:10</span>
+    <h1>Your screen,<br>on <span>instant replay</span>.</h1>
+    <p class="lede">Something funny, weird, or important just happened on your phone — and it's gone.
+    <b>ClipBack</b> quietly keeps the <b>last 10 seconds of your screen</b> ready at all times.
+    One tap, and it's a video in your gallery.</p>
+    <a class="cta" href="https://github.com/lorendhanna-jpg/clipback/releases/latest">Download for Android (beta)</a>
+    <span class="soon">Coming soon to Google Play and the App Store</span>
+  </header>
+
+  <section>
+    <h2>How it works</h2>
+    <div class="cards">
+      <div class="card"><b>1 · Start it once</b><p>Approve the standard screen-capture permission and put your phone away. A visible notification shows whenever ClipBack is watching.</p></div>
+      <div class="card"><b>2 · Save from anywhere</b><p>The moment happens in any app — swipe down and tap "Save last 10 seconds" in the notification. No app switching.</p></div>
+      <div class="card"><b>3 · It's a normal video</b><p>Clips land in your gallery under Movies/ClipBack. Watch, trim, share.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Built to be trusted</h2>
+    <div class="cards">
+      <div class="card"><b>🔒 No internet, period</b><p>ClipBack has no internet permission at all — it is physically unable to upload anything, ever.</p></div>
+      <div class="card"><b>🧠 Memory only</b><p>The rolling buffer lives in RAM and is overwritten continuously. Nothing touches storage until you tap Save. Stop ClipBack and it's gone.</p></div>
+      <div class="card"><b>👁 Always visible</b><p>A recording indicator and a persistent notification show whenever it's watching. No stealth mode — by design.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>ClipBack Pro</h2>
+    <p style="color:var(--dim)">The 10-second window is free forever. A ClipBack Pro subscription reaches back further — <b style="color:var(--mist)">30 seconds, 1 minute, or 2 minutes</b>. Cancel anytime.</p>
+  </section>
+
+  <footer>
+    <a href="privacy.html">Privacy Policy</a> · <a href="mailto:lorendhanna@gmail.com">Contact</a><br>
+    © 2026 ClipBack
+  </footer>
+</div>
+</body>
+</html>
