@@ -10,7 +10,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Rewind">
+        android:theme="@style/Theme.ClipBack">
 
         <activity
             android:name=".MainActivity"

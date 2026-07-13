@@ -3,18 +3,18 @@ import ReplayKit
 import Photos
 
 /// The system's broadcast start/stop button, pinned to our extension so the
-/// picker sheet only offers Rewind.
+/// picker sheet only offers ClipBack.
 struct BroadcastPicker: UIViewRepresentable {
     func makeUIView(context: Context) -> RPSystemBroadcastPickerView {
         let v = RPSystemBroadcastPickerView(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
-        v.preferredExtension = "app.lrtelecom.rewind.broadcast"
+        v.preferredExtension = "com.clipback.app.broadcast"
         v.showsMicrophoneButton = false
         return v
     }
     func updateUIView(_ uiView: RPSystemBroadcastPickerView, context: Context) {}
 }
 
-final class RewindModel: ObservableObject {
+final class ClipBackModel: ObservableObject {
     @Published var status = "Not watching. Tap the record button and Start Broadcast — from then on the last 10 seconds of your screen are always ready."
     @Published var savedCount = 0
 
@@ -30,7 +30,7 @@ final class RewindModel: ObservableObject {
         let observer = Unmanaged.passUnretained(self).toOpaque()
         CFNotificationCenterAddObserver(center, observer, { _, observer, _, _, _ in
             guard let observer else { return }
-            let model = Unmanaged<RewindModel>.fromOpaque(observer).takeUnretainedValue()
+            let model = Unmanaged<ClipBackModel>.fromOpaque(observer).takeUnretainedValue()
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { model.sweep() }
         }, DarwinNames.saved as CFString, nil, .deliverImmediately)
     }
@@ -71,13 +71,13 @@ final class RewindModel: ObservableObject {
 }
 
 struct ContentView: View {
-    @StateObject private var model = RewindModel()
+    @StateObject private var model = ClipBackModel()
     @Environment(\.scenePhase) private var scenePhase
 
     var body: some View {
         VStack(spacing: 28) {
             Spacer()
-            Text("⏪ Rewind")
+            Text("⏪ ClipBack")
                 .font(.system(size: 40, weight: .bold))
             Text(model.status)
                 .multilineTextAlignment(.center)
@@ -104,7 +104,7 @@ struct ContentView: View {
             .padding(.horizontal, 24)
 
             Spacer()
-            Text("Stopping the broadcast also auto-saves the last 10 seconds. Clips land in Photos. Nothing is stored or uploaded until you save — Rewind has no internet access.")
+            Text("Stopping the broadcast also auto-saves the last 10 seconds. Clips land in Photos. Nothing is stored or uploaded until you save — ClipBack has no internet access.")
                 .font(.footnote)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)

@@ -21,7 +21,7 @@ class SampleHandler: RPBroadcastSampleHandler {
     private let lock = NSLock()
     private var samples: [CMSampleBuffer] = []
     private var session: VTCompressionSession?
-    private let saveQueue = DispatchQueue(label: "rewind.save")
+    private let saveQueue = DispatchQueue(label: "clipback.save")
 
     // MARK: broadcast lifecycle
 
@@ -138,7 +138,7 @@ class SampleHandler: RPBroadcastSampleHandler {
         guard let format = CMSampleBufferGetFormatDescription(clip[0]),
               let dir = AppGroup.clipsDirectory else { return }
 
-        let url = dir.appendingPathComponent("Rewind_\(Int(Date().timeIntervalSince1970)).mp4")
+        let url = dir.appendingPathComponent("ClipBack_\(Int(Date().timeIntervalSince1970)).mp4")
         guard let writer = try? AVAssetWriter(outputURL: url, fileType: .mp4) else { return }
         let input = AVAssetWriterInput(mediaType: .video, outputSettings: nil, sourceFormatHint: format)
         input.expectsMediaDataInRealTime = false

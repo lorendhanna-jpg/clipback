@@ -11,5 +11,5 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "Rewind"
+rootProject.name = "ClipBack"
 include(":app")

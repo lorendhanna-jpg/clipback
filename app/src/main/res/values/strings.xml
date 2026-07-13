@@ -1,26 +1,26 @@
 <resources>
-    <string name="app_name">Rewind</string>
+    <string name="app_name">ClipBack</string>
     <string name="status_off">Not watching. Nothing is being recorded.</string>
     <string name="status_on">Watching your screen — the last 10 seconds are always ready.</string>
-    <string name="start_watching">Start Rewind</string>
-    <string name="stop_watching">Stop Rewind</string>
+    <string name="start_watching">Start ClipBack</string>
+    <string name="stop_watching">Stop ClipBack</string>
     <string name="action_save">⏪ Save last 10 seconds</string>
     <string name="action_save_n">⏪ Save last %s</string>
     <string name="window_title">Replay window — how far back a save reaches</string>
-    <string name="window_applies_next">Applies the next time you start Rewind</string>
-    <string name="paywall_title">Rewind Pro</string>
-    <string name="paywall_body_priced">Reach back %1$s instead of 10 seconds. Rewind Pro is %2$s — cancel anytime in Google Play.</string>
-    <string name="paywall_body_unpriced">Reach back %1$s instead of 10 seconds with a Rewind Pro subscription — cancel anytime in Google Play.</string>
-    <string name="paywall_cta">Get Rewind Pro</string>
+    <string name="window_applies_next">Applies the next time you start ClipBack</string>
+    <string name="paywall_title">ClipBack Pro</string>
+    <string name="paywall_body_priced">Reach back %1$s instead of 10 seconds. ClipBack Pro is %2$s — cancel anytime in Google Play.</string>
+    <string name="paywall_body_unpriced">Reach back %1$s instead of 10 seconds with a ClipBack Pro subscription — cancel anytime in Google Play.</string>
+    <string name="paywall_cta">Get ClipBack Pro</string>
     <string name="paywall_later">Not now</string>
-    <string name="paywall_unavailable">Subscriptions unlock once Rewind is live on Google Play — coming soon.</string>
+    <string name="paywall_unavailable">Subscriptions unlock once ClipBack is live on Google Play — coming soon.</string>
     <string name="action_stop">Stop</string>
-    <string name="notif_title">Rewind is watching</string>
+    <string name="notif_title">ClipBack is watching</string>
     <string name="notif_body">Something happen? Tap “Save last 10 seconds”.</string>
     <string name="saved_title">Saved!</string>
     <string name="saved_body">The last 10 seconds are in your gallery. Tap to watch.</string>
     <string name="saved_toast">⏪ Saved the last 10 seconds to your gallery</string>
     <string name="save_failed">Could not save the clip — try again.</string>
     <string name="nothing_yet">Nothing to save yet — give it a few seconds.</string>
-    <string name="how_it_works">How it works: Rewind quietly keeps only the last 10 seconds of your screen in memory — nothing is saved anywhere until YOU tap Save. Saved clips land in your gallery under Movies/Rewind. Use the button here or the one in your notifications from any app.</string>
+    <string name="how_it_works">How it works: ClipBack quietly keeps only the last 10 seconds of your screen in memory — nothing is saved anywhere until YOU tap Save. Saved clips land in your gallery under Movies/ClipBack. Use the button here or the one in your notifications from any app.</string>
 </resources>

@@ -1,30 +1,30 @@
-name: Rewind
+name: ClipBack
 options:
-  bundleIdPrefix: app.lrtelecom
+  bundleIdPrefix: com.clipback
   deploymentTarget:
     iOS: "16.0"
 targets:
-  Rewind:
+  ClipBack:
     type: application
     platform: iOS
-    sources: [Rewind]
+    sources: [ClipBack]
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: app.lrtelecom.rewind
-        INFOPLIST_FILE: Rewind/Info.plist
-        CODE_SIGN_ENTITLEMENTS: Rewind/Rewind.entitlements
+        PRODUCT_BUNDLE_IDENTIFIER: com.clipback.app
+        INFOPLIST_FILE: ClipBack/Info.plist
+        CODE_SIGN_ENTITLEMENTS: ClipBack/ClipBack.entitlements
         TARGETED_DEVICE_FAMILY: "1"
         GENERATE_INFOPLIST_FILE: false
     dependencies:
-      - target: RewindBroadcast
+      - target: ClipBackBroadcast
         embed: true
-  RewindBroadcast:
+  ClipBackBroadcast:
     type: app-extension
     platform: iOS
-    sources: [RewindBroadcast]
+    sources: [ClipBackBroadcast]
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: app.lrtelecom.rewind.broadcast
-        INFOPLIST_FILE: RewindBroadcast/Info.plist
-        CODE_SIGN_ENTITLEMENTS: RewindBroadcast/RewindBroadcast.entitlements
+        PRODUCT_BUNDLE_IDENTIFIER: com.clipback.app.broadcast
+        INFOPLIST_FILE: ClipBackBroadcast/Info.plist
+        CODE_SIGN_ENTITLEMENTS: ClipBackBroadcast/ClipBackBroadcast.entitlements
         GENERATE_INFOPLIST_FILE: false

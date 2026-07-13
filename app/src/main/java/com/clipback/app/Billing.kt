@@ -1,4 +1,4 @@
-package app.lrtelecom.rewind
+package com.clipback.app
 
 import android.app.Activity
 import android.content.Context
@@ -14,9 +14,9 @@ import com.android.billingclient.api.PurchasesUpdatedListener
 import com.android.billingclient.api.QueryProductDetailsParams
 import com.android.billingclient.api.QueryPurchasesParams
 
-/** Rewind Pro entitlement: unlocks replay windows longer than 10 seconds. */
+/** ClipBack Pro entitlement: unlocks replay windows longer than 10 seconds. */
 object Pro {
-    private const val PREFS = "rewind"
+    private const val PREFS = "clipback"
     private const val KEY = "pro"
 
     fun isPro(ctx: Context): Boolean =
@@ -29,7 +29,7 @@ object Pro {
 }
 
 /**
- * Google Play subscription for Rewind Pro. Product id `rewind_pro` must be
+ * Google Play subscription for ClipBack Pro. Product id `clipback_pro` must be
  * created in Play Console (Monetize → Subscriptions) once the app is listed;
  * until then product details come back empty and the paywall explains that.
  */
@@ -38,7 +38,7 @@ class BillingManager(
     private val onEntitlementChange: () -> Unit
 ) : PurchasesUpdatedListener {
 
-    companion object { const val PRODUCT_ID = "rewind_pro" }
+    companion object { const val PRODUCT_ID = "clipback_pro" }
 
     var product: ProductDetails? = null
         private set

@@ -1,7 +1,7 @@
 import Foundation
 
 enum AppGroup {
-    static let identifier = "group.app.lrtelecom.rewind"
+    static let identifier = "group.com.clipback.app"
 
     static var clipsDirectory: URL? {
         guard let base = FileManager.default
@@ -13,8 +13,8 @@ enum AppGroup {
 }
 
 enum DarwinNames {
-    static let save = "app.lrtelecom.rewind.save"
-    static let saved = "app.lrtelecom.rewind.saved"
+    static let save = "com.clipback.app.save"
+    static let saved = "com.clipback.app.saved"
 
     static func post(_ name: String) {
         CFNotificationCenterPostNotification(

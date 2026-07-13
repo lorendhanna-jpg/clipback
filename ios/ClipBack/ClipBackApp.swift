@@ -1,7 +1,7 @@
 import SwiftUI
 
 @main
-struct RewindApp: App {
+struct ClipBackApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()

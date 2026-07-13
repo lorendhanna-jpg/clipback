@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "app.lrtelecom.rewind"
+    namespace = "com.clipback.app"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "app.lrtelecom.rewind"
+        applicationId = "com.clipback.app"
         minSdk = 29
         targetSdk = 34
         versionCode = 2

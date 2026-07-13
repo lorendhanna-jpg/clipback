@@ -1,4 +1,4 @@
-package app.lrtelecom.rewind
+package com.clipback.app
 
 import android.app.Notification
 import android.app.NotificationChannel
@@ -36,24 +36,24 @@ import java.util.Locale
  * Keeps a rolling in-memory buffer of the last ~12 seconds of encoded screen
  * video (H.264 via MediaCodec surface input + MediaProjection virtual display).
  * On SAVE, the newest 10 seconds are muxed to an MP4 and dropped into the
- * gallery (Movies/Rewind). Nothing is ever written to disk until the user
+ * gallery (Movies/ClipBack). Nothing is ever written to disk until the user
  * explicitly saves.
  */
 class RecordingService : Service() {
 
     companion object {
-        const val ACTION_START = "app.lrtelecom.rewind.START"
-        const val ACTION_SAVE = "app.lrtelecom.rewind.SAVE"
-        const val ACTION_STOP = "app.lrtelecom.rewind.STOP"
+        const val ACTION_START = "com.clipback.app.START"
+        const val ACTION_SAVE = "com.clipback.app.SAVE"
+        const val ACTION_STOP = "com.clipback.app.STOP"
         const val EXTRA_RESULT_CODE = "resultCode"
         const val EXTRA_RESULT_DATA = "resultData"
         const val EXTRA_WIDTH = "width"
         const val EXTRA_HEIGHT = "height"
         const val EXTRA_DPI = "dpi"
         const val EXTRA_WINDOW_S = "windowS"
-        const val BROADCAST_STATE = "app.lrtelecom.rewind.STATE"
+        const val BROADCAST_STATE = "com.clipback.app.STATE"
 
-        /** "Save last N seconds" — 10 free; 30/60/120 are Rewind Pro. */
+        /** "Save last N seconds" — 10 free; 30/60/120 are ClipBack Pro. */
         val WINDOW_CHOICES = intArrayOf(10, 30, 60, 120)
         const val FREE_WINDOW_S = 10
 
@@ -67,7 +67,7 @@ class RecordingService : Service() {
         var isRunning = false
             private set
 
-        private const val CHANNEL_ID = "rewind"
+        private const val CHANNEL_ID = "clipback"
         private const val NOTIF_ID = 1
         private const val SAVED_NOTIF_ID = 2
     }
@@ -143,7 +143,7 @@ class RecordingService : Service() {
         val mp = mpm.getMediaProjection(resultCode, resultData) ?: run { stopSelf(); return }
         projection = mp
 
-        handlerThread = HandlerThread("rewind-projection").also { it.start() }
+        handlerThread = HandlerThread("clipback-projection").also { it.start() }
         val handler = Handler(handlerThread!!.looper)
         mp.registerCallback(projectionCallback, handler)
 
@@ -172,7 +172,7 @@ class RecordingService : Service() {
             encoder = codec
 
             virtualDisplay = mp.createVirtualDisplay(
-                "rewind", width, height, dpi,
+                "clipback", width, height, dpi,
                 DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,
                 surface, null, handler
             )
@@ -280,9 +280,9 @@ class RecordingService : Service() {
 
             val stamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
             val values = ContentValues().apply {
-                put(MediaStore.Video.Media.DISPLAY_NAME, "Rewind_$stamp.mp4")
+                put(MediaStore.Video.Media.DISPLAY_NAME, "ClipBack_$stamp.mp4")
                 put(MediaStore.Video.Media.MIME_TYPE, "video/mp4")
-                put(MediaStore.Video.Media.RELATIVE_PATH, "Movies/Rewind")
+                put(MediaStore.Video.Media.RELATIVE_PATH, "Movies/ClipBack")
                 put(MediaStore.Video.Media.IS_PENDING, 1)
             }
             val uri = contentResolver.insert(

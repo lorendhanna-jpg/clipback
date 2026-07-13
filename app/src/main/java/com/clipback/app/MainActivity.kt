@@ -1,4 +1,4 @@
-package app.lrtelecom.rewind
+package com.clipback.app
 
 import android.Manifest
 import android.content.BroadcastReceiver
@@ -31,9 +31,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var billing: BillingManager
 
     private var windowS: Int
-        get() = getSharedPreferences("rewind", MODE_PRIVATE)
+        get() = getSharedPreferences("clipback", MODE_PRIVATE)
             .getInt("window_s", RecordingService.FREE_WINDOW_S)
-        set(value) = getSharedPreferences("rewind", MODE_PRIVATE)
+        set(value) = getSharedPreferences("clipback", MODE_PRIVATE)
             .edit().putInt("window_s", value).apply()
 
     private val stateReceiver = object : BroadcastReceiver() {

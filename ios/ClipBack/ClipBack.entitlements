@@ -4,7 +4,7 @@
 <dict>
     <key>com.apple.security.application-groups</key>
     <array>
-        <string>group.app.lrtelecom.rewind</string>
+        <string>group.com.clipback.app</string>
     </array>
 </dict>
 </plist>

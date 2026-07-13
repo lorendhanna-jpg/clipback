@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
     <key>CFBundleDisplayName</key>
-    <string>Rewind</string>
+    <string>ClipBack</string>
     <key>CFBundleName</key>
-    <string>RewindBroadcast</string>
+    <string>ClipBackBroadcast</string>
     <key>CFBundleIdentifier</key>
     <string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
     <key>CFBundleExecutable</key>
