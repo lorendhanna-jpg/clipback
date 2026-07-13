@@ -1,0 +1,30 @@
+name: Rewind
+options:
+  bundleIdPrefix: app.lrtelecom
+  deploymentTarget:
+    iOS: "16.0"
+targets:
+  Rewind:
+    type: application
+    platform: iOS
+    sources: [Rewind]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.lrtelecom.rewind
+        INFOPLIST_FILE: Rewind/Info.plist
+        CODE_SIGN_ENTITLEMENTS: Rewind/Rewind.entitlements
+        TARGETED_DEVICE_FAMILY: "1"
+        GENERATE_INFOPLIST_FILE: false
+    dependencies:
+      - target: RewindBroadcast
+        embed: true
+  RewindBroadcast:
+    type: app-extension
+    platform: iOS
+    sources: [RewindBroadcast]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.lrtelecom.rewind.broadcast
+        INFOPLIST_FILE: RewindBroadcast/Info.plist
+        CODE_SIGN_ENTITLEMENTS: RewindBroadcast/RewindBroadcast.entitlements
+        GENERATE_INFOPLIST_FILE: false
