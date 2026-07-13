@@ -31,6 +31,21 @@
         android:text="@string/start_watching"
         android:textSize="18sp" />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:text="@string/window_title"
+        android:textSize="13sp"
+        android:alpha="0.7" />
+
+    <LinearLayout
+        android:id="@+id/windowRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal" />
+
     <Button
         android:id="@+id/saveButton"
         android:layout_width="match_parent"

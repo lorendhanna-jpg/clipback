@@ -12,10 +12,13 @@ import android.os.Build
 import android.os.Bundle
 import android.view.WindowManager
 import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlin.math.max
 import kotlin.math.roundToInt
 
@@ -24,6 +27,14 @@ class MainActivity : AppCompatActivity() {
     private lateinit var toggleButton: Button
     private lateinit var saveButton: Button
     private lateinit var statusText: TextView
+    private lateinit var windowRow: LinearLayout
+    private lateinit var billing: BillingManager
+
+    private var windowS: Int
+        get() = getSharedPreferences("rewind", MODE_PRIVATE)
+            .getInt("window_s", RecordingService.FREE_WINDOW_S)
+        set(value) = getSharedPreferences("rewind", MODE_PRIVATE)
+            .edit().putInt("window_s", value).apply()
 
     private val stateReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) = refreshUi()
@@ -41,6 +52,7 @@ class MainActivity : AppCompatActivity() {
                     .putExtra(RecordingService.EXTRA_WIDTH, w)
                     .putExtra(RecordingService.EXTRA_HEIGHT, h)
                     .putExtra(RecordingService.EXTRA_DPI, resources.displayMetrics.densityDpi)
+                    .putExtra(RecordingService.EXTRA_WINDOW_S, effectiveWindow())
                 ContextCompat.startForegroundService(this, i)
             }
             // The service broadcasts its state once it's actually up.
@@ -55,6 +67,11 @@ class MainActivity : AppCompatActivity() {
         toggleButton = findViewById(R.id.toggleButton)
         saveButton = findViewById(R.id.saveButton)
         statusText = findViewById(R.id.statusText)
+        windowRow = findViewById(R.id.windowRow)
+
+        billing = BillingManager(this) { buildWindowRow() }
+        billing.connect()
+        buildWindowRow()
 
         toggleButton.setOnClickListener {
             if (RecordingService.isRunning) {
@@ -135,5 +152,58 @@ class MainActivity : AppCompatActivity() {
         statusText.text = getString(if (running) R.string.status_on else R.string.status_off)
         saveButton.isEnabled = running
         saveButton.alpha = if (running) 1f else 0.4f
+        saveButton.text = getString(
+            R.string.action_save_n, RecordingService.windowLabel(effectiveWindow())
+        )
+    }
+
+    /** The stored choice, downgraded to free if Pro lapsed. */
+    private fun effectiveWindow(): Int =
+        if (windowS == RecordingService.FREE_WINDOW_S || Pro.isPro(this)) windowS
+        else RecordingService.FREE_WINDOW_S
+
+    private fun buildWindowRow() {
+        windowRow.removeAllViews()
+        val pro = Pro.isPro(this)
+        for (w in RecordingService.WINDOW_CHOICES) {
+            val b = Button(this)
+            val locked = w != RecordingService.FREE_WINDOW_S && !pro
+            b.text = when {
+                w >= 60 -> "${w / 60}m" + if (locked) " 🔒" else ""
+                else -> "${w}s" + if (locked) " 🔒" else ""
+            }
+            b.alpha = if (w == effectiveWindow()) 1f else 0.45f
+            b.setOnClickListener {
+                if (locked) { showPaywall(w); return@setOnClickListener }
+                windowS = w
+                buildWindowRow()
+                refreshUi()
+                if (RecordingService.isRunning) {
+                    Toast.makeText(this, R.string.window_applies_next, Toast.LENGTH_SHORT).show()
+                }
+            }
+            val lp = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
+            lp.marginEnd = 8
+            windowRow.addView(b, lp)
+        }
+    }
+
+    private fun showPaywall(wantedWindow: Int) {
+        val price = billing.product?.subscriptionOfferDetails?.firstOrNull()
+            ?.pricingPhases?.pricingPhaseList?.firstOrNull()?.formattedPrice
+        val message = if (price != null)
+            getString(R.string.paywall_body_priced, RecordingService.windowLabel(wantedWindow), price)
+        else
+            getString(R.string.paywall_body_unpriced, RecordingService.windowLabel(wantedWindow))
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.paywall_title)
+            .setMessage(message)
+            .setPositiveButton(R.string.paywall_cta) { _, _ ->
+                if (!billing.launchPurchase()) {
+                    Toast.makeText(this, R.string.paywall_unavailable, Toast.LENGTH_LONG).show()
+                }
+            }
+            .setNegativeButton(R.string.paywall_later, null)
+            .show()
     }
 }

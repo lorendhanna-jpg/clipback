@@ -50,10 +50,18 @@ class RecordingService : Service() {
         const val EXTRA_WIDTH = "width"
         const val EXTRA_HEIGHT = "height"
         const val EXTRA_DPI = "dpi"
+        const val EXTRA_WINDOW_S = "windowS"
         const val BROADCAST_STATE = "app.lrtelecom.rewind.STATE"
 
-        const val KEEP_MS = 12_000L   // rolling buffer window
-        const val SAVE_MS = 10_000L   // what a save writes out
+        /** "Save last N seconds" — 10 free; 30/60/120 are Rewind Pro. */
+        val WINDOW_CHOICES = intArrayOf(10, 30, 60, 120)
+        const val FREE_WINDOW_S = 10
+
+        fun windowLabel(s: Int): String = when {
+            s >= 120 -> "${s / 60} minutes"
+            s == 60 -> "1 minute"
+            else -> "$s seconds"
+        }
 
         @Volatile
         var isRunning = false
@@ -77,6 +85,10 @@ class RecordingService : Service() {
 
     private val lock = Any()
     private val buffer = ArrayDeque<Sample>()
+
+    @Volatile
+    private var saveMs = 10_000L      // chosen replay window
+    private val keepMs get() = saveMs + 2_000L
 
     @Volatile
     private var outputFormat: MediaFormat? = null
@@ -105,6 +117,7 @@ class RecordingService : Service() {
 
     private fun start(intent: Intent) {
         if (isRunning) return
+        saveMs = intent.getIntExtra(EXTRA_WINDOW_S, FREE_WINDOW_S) * 1000L
         createChannel()
         val notification = buildNotification()
         if (Build.VERSION.SDK_INT >= 29) {
@@ -140,7 +153,12 @@ class RecordingService : Service() {
                     MediaFormat.KEY_COLOR_FORMAT,
                     MediaCodecInfo.CodecCapabilities.COLOR_FormatSurface
                 )
-                setInteger(MediaFormat.KEY_BIT_RATE, 6_000_000)
+                // Longer windows use a lower bitrate so the in-memory buffer
+                // stays reasonable (2 min @ 4 Mbps ≈ 60 MB).
+                setInteger(
+                    MediaFormat.KEY_BIT_RATE,
+                    when { saveMs >= 120_000L -> 4_000_000; saveMs >= 60_000L -> 5_000_000; else -> 6_000_000 }
+                )
                 setInteger(MediaFormat.KEY_FRAME_RATE, 30)
                 setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, 1)
                 // Emit frames even when the screen is static so saves always
@@ -207,7 +225,7 @@ class RecordingService : Service() {
      *  full keep-window. */
     private fun prune() {
         val last = buffer.lastOrNull() ?: return
-        val cutoff = last.ptsUs - KEEP_MS * 1000
+        val cutoff = last.ptsUs - keepMs * 1000
         while (true) {
             var seenFirstKey = false
             var secondKeyIdx = -1
@@ -231,7 +249,7 @@ class RecordingService : Service() {
             return
         }
         val endPts = snapshot.last().ptsUs
-        val wantStart = endPts - SAVE_MS * 1000
+        val wantStart = endPts - saveMs * 1000
         var startIdx = -1
         for (i in snapshot.indices) {
             val s = snapshot[i]
@@ -322,7 +340,11 @@ class RecordingService : Service() {
             .setContentText(getString(R.string.notif_body))
             .setOngoing(true)
             .setContentIntent(openApp)
-            .addAction(0, getString(R.string.action_save), servicePI(ACTION_SAVE, 1))
+            .addAction(
+                0,
+                getString(R.string.action_save_n, windowLabel((saveMs / 1000L).toInt())),
+                servicePI(ACTION_SAVE, 1)
+            )
             .addAction(0, getString(R.string.action_stop), servicePI(ACTION_STOP, 2))
             .build()
     }

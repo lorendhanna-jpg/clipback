@@ -5,6 +5,15 @@
     <string name="start_watching">Start Rewind</string>
     <string name="stop_watching">Stop Rewind</string>
     <string name="action_save">⏪ Save last 10 seconds</string>
+    <string name="action_save_n">⏪ Save last %s</string>
+    <string name="window_title">Replay window — how far back a save reaches</string>
+    <string name="window_applies_next">Applies the next time you start Rewind</string>
+    <string name="paywall_title">Rewind Pro</string>
+    <string name="paywall_body_priced">Reach back %1$s instead of 10 seconds. Rewind Pro is %2$s — cancel anytime in Google Play.</string>
+    <string name="paywall_body_unpriced">Reach back %1$s instead of 10 seconds with a Rewind Pro subscription — cancel anytime in Google Play.</string>
+    <string name="paywall_cta">Get Rewind Pro</string>
+    <string name="paywall_later">Not now</string>
+    <string name="paywall_unavailable">Subscriptions unlock once Rewind is live on Google Play — coming soon.</string>
     <string name="action_stop">Stop</string>
     <string name="notif_title">Rewind is watching</string>
     <string name="notif_body">Something happen? Tap “Save last 10 seconds”.</string>
