@@ -1,0 +1,5 @@
+<resources>
+    <style name="Theme.Rewind" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/rewind_purple</item>
+    </style>
+</resources>
